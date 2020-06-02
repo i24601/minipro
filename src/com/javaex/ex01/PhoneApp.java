@@ -19,16 +19,13 @@ public class PhoneApp {
 		List<Person> phoneDB = new ArrayList<Person>();
 		Scanner sc = new Scanner(System.in);
 		
-		Writer wrPhone = null;
-		BufferedWriter bwrPhone = null;
-		
 		System.out.println("****************************************");
 		System.out.println("**       전화번호 관리 프로그램       **");
 		System.out.println("****************************************");
 
 		Reader rdPhone = new FileReader("./PhoneDB.txt");
 		BufferedReader brdPhone = new BufferedReader(rdPhone);
-
+		
 		//내부 리스트 저장
 		while (true) {
 			String str = brdPhone.readLine();
@@ -55,10 +52,11 @@ public class PhoneApp {
 				break;
 
 			case 2:
-				wrPhone = new FileWriter("./PhoneDB.txt");
-				bwrPhone = new BufferedWriter(wrPhone);
-
-
+				
+				Writer wradd = new FileWriter("./PhoneDB.txt");
+				BufferedWriter bwradd = new BufferedWriter(wradd);
+				
+				
 				sc.nextLine();
 				System.out.println("<2.등록>");
 				System.out.print("이름: ");
@@ -71,16 +69,18 @@ public class PhoneApp {
 				phoneDB.add(new Person(name, hp, company));
 
 				for (Person pp : phoneDB) {
-					bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-					bwrPhone.newLine();
-					bwrPhone.flush();
+					bwradd.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+					bwradd.newLine();
+					bwradd.flush();
 				}
 				System.out.println("[등록되었습니다]");
+				bwradd.close();
 				break;
 
 			case 3:
-				wrPhone = new FileWriter("./PhoneDB.txt");
-				bwrPhone = new BufferedWriter(wrPhone);
+				
+				Writer wrdel = new FileWriter("./PhoneDB.txt");
+				BufferedWriter bwrdel = new BufferedWriter(wrdel);
 
 				System.out.println("<3.삭제>");
 				System.out.print(">번호: ");
@@ -89,10 +89,11 @@ public class PhoneApp {
 				
 				System.out.println("[삭제되었습니다]");
 				for (Person pp : phoneDB) {
-					bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-					bwrPhone.newLine();
-					bwrPhone.flush();
+					bwrdel.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+					bwrdel.newLine();
+					bwrdel.flush();
 				}
+				bwrdel.close();
 				break;
 
 			case 4:
@@ -121,7 +122,6 @@ public class PhoneApp {
 
 		sc.close();
 		brdPhone.close();
-		bwrPhone.close();
 	}
 
 }

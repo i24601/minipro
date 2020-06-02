@@ -64,9 +64,11 @@ public class PhoneManager {
 		String company = sc.nextLine();
 		pList.add(new Person(name, hp, company));
 		bwrPhone.write(name + "," + hp + "," + company);
+		saveList();
 		bwrPhone.newLine();
 		bwrPhone.flush();
 		System.out.println("[등록되었습니다]");
+		bwrPhone.close();
 	}
 
 	// 3.삭제선택시
@@ -78,11 +80,8 @@ public class PhoneManager {
 		System.out.print(">번호: ");
 		pList.remove(sc.nextInt() - 1);
 		System.out.println("[삭제되었습니다]");
-		for (Person pp : pList) {
-			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-			bwrPhone.newLine();
-			bwrPhone.flush();
-		}
+		saveList();
+		bwrPhone.close();
 	}
 
 	// 4.검색선택시
@@ -130,24 +129,16 @@ public class PhoneManager {
 
 	// 리스트를 파일에 저장한다.
 	private void saveList() throws IOException {
-		Writer wrPhone = new FileWriter("./PhoneDB.txt");
-		BufferedWriter bwrPhone = new BufferedWriter(wrPhone);
+		System.out.println("실행");
+		Writer wradd = new FileWriter("./PhoneDB.txt");
+		BufferedWriter bwradd = new BufferedWriter(wradd);
 		for (Person pp : pList) {
-			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-			bwrPhone.newLine();
-			bwrPhone.flush();
-			bwrPhone.close();
+			bwradd.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+			bwradd.newLine();
+			bwradd.flush();
+		}
+		bwradd.close();
 		}
 	}
 
-	// 전체 리스트를 출력한다
-	private void printList() {
-		printList("");// 아래 메소드에 키워드값을 비워서 호출
-	}
 
-	// 키워드로 검색한 리스트를 출력한다
-	private void printList(String keyword) {
-
-	}
-
-}
