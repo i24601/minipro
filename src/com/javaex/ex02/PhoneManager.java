@@ -1,9 +1,12 @@
 package com.javaex.ex02;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +18,8 @@ public class PhoneManager {
 	private List<Person> pList;
 	private Scanner sc;
 	private int num;
-	public PhoneManager() {
+
+	public PhoneManager() throws IOException{
 		sc = new Scanner(System.in);
 		pList = new ArrayList<Person>();
 
@@ -23,23 +27,10 @@ public class PhoneManager {
 	}
 
 	// 시작준비 (시작화면 출려과 리스트 가져온다)
-	public void showTitle() throws IOException{
+	public void showTitle() {
 		System.out.println("****************************************");
 		System.out.println("**       전화번호 관리 프로그램       **");
 		System.out.println("****************************************");
-		
-		Reader rdPhone = new FileReader("./PhoneDB.txt");
-		BufferedReader brdPhone = new BufferedReader(rdPhone);
-
-		while (true) {
-			String str = brdPhone.readLine();
-			if (str == null) {
-				break;
-			}
-			String data[] = str.split(",");
-			pList.add(new Person(data[0], data[1], data[2]));
-		}
-		
 	}
 
 	// 메뉴 출력과 입력을 받는다.
@@ -52,44 +43,101 @@ public class PhoneManager {
 
 	// 1.리스트선택시
 	public void showList() {
-		
+		for (Person pp : pList) {
+			System.out.printf("%d.   %s     %s   %s\n", pList.lastIndexOf(pp) + 1, pp.getName(), pp.getHp(),
+					pp.getCompany());
+		}
+
 	}
 
 	// 2.등록선택시
-	public void showAdd() {
-
+	public void showAdd() throws IOException{
+		Writer wrPhone = new FileWriter("./PhoneDB.txt");
+		BufferedWriter bwrPhone = new BufferedWriter(wrPhone);
+		sc.nextLine();
+		System.out.println("<2.등록>");
+		System.out.print("이름: ");
+		String name = sc.nextLine();
+		System.out.print("휴대전화: ");
+		String hp = sc.nextLine();
+		System.out.print("회사전화: ");
+		String company = sc.nextLine();
+		pList.add(new Person(name, hp, company));
+		bwrPhone.write(name + "," + hp + "," + company);
+		bwrPhone.newLine();
+		bwrPhone.flush();
+		System.out.println("[등록되었습니다]");
 	}
 
 	// 3.삭제선택시
-	public void showRemove() {
+	public void showRemove() throws IOException {
+		Writer wrPhone = new FileWriter("./PhoneDB.txt");
+		BufferedWriter bwrPhone = new BufferedWriter(wrPhone);
 
+		System.out.println("<3.삭제>");
+		System.out.print(">번호: ");
+		pList.remove(sc.nextInt() - 1);
+		System.out.println("[삭제되었습니다]");
+		for (Person pp : pList) {
+			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+			bwrPhone.newLine();
+			bwrPhone.flush();
+		}
 	}
 
 	// 4.검색선택시
 	public void showSearch() {
-
+		sc.nextLine();
+		System.out.println("<4.검색>");
+		System.out.print(">이름: ");
+		String search = sc.nextLine();
+		for (Person pp : pList) {
+			if (pp.getName().contains(search)) {
+				System.out.printf("%d.   %s     %s   %s\n", pList.lastIndexOf(pp) + 1, pp.getName(),
+						pp.getHp(), pp.getCompany());
+			}
+		}
 	}
 
 	// 5.종료시
 	public void showEnd() {
-
+		System.out.println("****************************************");
+		System.out.println("**             감사합니다             **");
+		System.out.println("****************************************");
 	}
-	
-	
+
 	// 메뉴번호를 잘못 입력시 안내문구를 출력하는 메소드
 	public void showEtc() {
-
+		System.out.println("다시 입력해주세요");
 	}
-	
-	
-	// 파일을 읽어 리스트에 담아 전달한다.
-	private List<Person> getList() {
 
+	// 파일을 읽어 리스트에 담아 전달한다.
+	private List<Person> getList() throws IOException {
+		Reader rdPhone = new FileReader("./PhoneDB.txt");
+		BufferedReader brdPhone = new BufferedReader(rdPhone);
+
+		while (true) {
+			String str = brdPhone.readLine();
+			if (str == null) {
+				break;
+			}
+			String data[] = str.split(",");
+			pList.add(new Person(data[0], data[1], data[2]));
+		}
+		brdPhone.close();
+		return pList;
 	}
 
 	// 리스트를 파일에 저장한다.
-	private void saveList() {
-
+	private void saveList() throws IOException {
+		Writer wrPhone = new FileWriter("./PhoneDB.txt");
+		BufferedWriter bwrPhone = new BufferedWriter(wrPhone);
+		for (Person pp : pList) {
+			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+			bwrPhone.newLine();
+			bwrPhone.flush();
+			bwrPhone.close();
+		}
 	}
 
 	// 전체 리스트를 출력한다
@@ -99,7 +147,7 @@ public class PhoneManager {
 
 	// 키워드로 검색한 리스트를 출력한다
 	private void printList(String keyword) {
-		
+
 	}
-	
+
 }

@@ -19,6 +19,9 @@ public class PhoneApp {
 		List<Person> phoneDB = new ArrayList<Person>();
 		Scanner sc = new Scanner(System.in);
 		
+		Writer wrPhone = null;
+		BufferedWriter bwrPhone = null;
+		
 		System.out.println("****************************************");
 		System.out.println("**       전화번호 관리 프로그램       **");
 		System.out.println("****************************************");
@@ -26,6 +29,7 @@ public class PhoneApp {
 		Reader rdPhone = new FileReader("./PhoneDB.txt");
 		BufferedReader brdPhone = new BufferedReader(rdPhone);
 
+		//내부 리스트 저장
 		while (true) {
 			String str = brdPhone.readLine();
 			if (str == null) {
@@ -35,15 +39,6 @@ public class PhoneApp {
 			phoneDB.add(new Person(data[0], data[1], data[2]));
 		}
 		
-		Writer wrPhone = new FileWriter("./PhoneDB.txt");
-		BufferedWriter bwrPhone = new BufferedWriter(wrPhone);
-
-		for (Person pp : phoneDB) {
-			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-			bwrPhone.newLine();
-			bwrPhone.flush();
-		}
-
 		while (begin) {
 			System.out.println("1.리스트  2.등록  3.삭제  4.검색  5.종료");
 			System.out.print(">메뉴번호:");
@@ -63,11 +58,6 @@ public class PhoneApp {
 				wrPhone = new FileWriter("./PhoneDB.txt");
 				bwrPhone = new BufferedWriter(wrPhone);
 
-				for (Person pp : phoneDB) {
-					bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-					bwrPhone.newLine();
-					bwrPhone.flush();
-				}
 
 				sc.nextLine();
 				System.out.println("<2.등록>");
@@ -77,10 +67,14 @@ public class PhoneApp {
 				String hp = sc.nextLine();
 				System.out.print("회사전화: ");
 				String company = sc.nextLine();
+
 				phoneDB.add(new Person(name, hp, company));
-				bwrPhone.write(name + "," + hp + "," + company);
-				bwrPhone.newLine();
-				bwrPhone.flush();
+
+				for (Person pp : phoneDB) {
+					bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+					bwrPhone.newLine();
+					bwrPhone.flush();
+				}
 				System.out.println("[등록되었습니다]");
 				break;
 
@@ -90,7 +84,9 @@ public class PhoneApp {
 
 				System.out.println("<3.삭제>");
 				System.out.print(">번호: ");
+				
 				phoneDB.remove(sc.nextInt() - 1);
+				
 				System.out.println("[삭제되었습니다]");
 				for (Person pp : phoneDB) {
 					bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
