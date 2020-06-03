@@ -48,32 +48,15 @@ public class PhoneRepository {
 	
 	//기존데이터에 새로입력받은 데이터를 추가하여 모두저장하는 메소드 
 	public void addInfo(Person phoneVO) throws IOException{
-		Writer wradd = new FileWriter("./PhoneDB.txt");
-		BufferedWriter bwradd = new BufferedWriter(wradd);
-		
 		pList.add(phoneVO);
-		
-		for (Person pp : pList) {
-			bwradd.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-			bwradd.newLine();
-			bwradd.flush();
-		}
-		bwradd.close();
+		saveInfo(pList);		
 	}
 
 	//선택한 번호의 데이터를 삭제하고 저장하는 메소드(모두 다시저장)
 	public void delInfo(int num) throws IOException{
-		Writer wrRemove = new FileWriter("./PhoneDB.txt");
-		BufferedWriter bwrRemove = new BufferedWriter(wrRemove);
 
-		
 		pList.remove(num - 1);
-		for (Person pp : pList) {
-			bwrRemove.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
-			bwrRemove.newLine();
-			bwrRemove.flush();
-		}
-		bwrRemove.close();
+		saveInfo(pList);
 
 	}
 	

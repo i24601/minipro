@@ -23,7 +23,7 @@ public class PhoneApp {
 		
 		boolean run = true;
 		List<Person> phoneList;
-
+		
 		phoneView.showStart();
 
 		while (run) {
