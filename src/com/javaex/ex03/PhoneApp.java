@@ -1,10 +1,11 @@
 package com.javaex.ex03;
 
+import java.io.IOException;
 import java.util.List;
 
 public class PhoneApp {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		/*
 		PhoneView 생성
@@ -28,7 +29,7 @@ public class PhoneApp {
 		while (run) {
 			int menuNum = phoneView.showMenu();
 
-			switch (menuNum) {
+			switch (menuNum){
 
 			case 1:
 				phoneList = phoneRepo.getList();

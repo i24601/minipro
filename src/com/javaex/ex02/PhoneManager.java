@@ -62,11 +62,14 @@ public class PhoneManager {
 		String hp = sc.nextLine();
 		System.out.print("회사전화: ");
 		String company = sc.nextLine();
+		
 		pList.add(new Person(name, hp, company));
-		bwrPhone.write(name + "," + hp + "," + company);
-		saveList();
-		bwrPhone.newLine();
-		bwrPhone.flush();
+
+		for (Person pp : pList) {
+			bwrPhone.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
+			bwrPhone.newLine();
+			bwrPhone.flush();
+		}
 		System.out.println("[등록되었습니다]");
 		bwrPhone.close();
 	}
@@ -129,7 +132,6 @@ public class PhoneManager {
 
 	// 리스트를 파일에 저장한다.
 	private void saveList() throws IOException {
-		System.out.println("실행");
 		Writer wradd = new FileWriter("./PhoneDB.txt");
 		BufferedWriter bwradd = new BufferedWriter(wradd);
 		for (Person pp : pList) {
@@ -140,5 +142,3 @@ public class PhoneManager {
 		bwradd.close();
 		}
 	}
-
-
