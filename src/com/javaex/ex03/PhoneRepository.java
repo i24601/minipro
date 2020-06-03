@@ -52,6 +52,7 @@ public class PhoneRepository {
 		BufferedWriter bwradd = new BufferedWriter(wradd);
 		
 		pList.add(phoneVO);
+		
 		for (Person pp : pList) {
 			bwradd.write(pp.getName() + "," + pp.getHp() + "," + pp.getCompany());
 			bwradd.newLine();
