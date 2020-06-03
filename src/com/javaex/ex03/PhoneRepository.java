@@ -13,6 +13,9 @@ import java.util.List;
 public class PhoneRepository {
 	private List<Person> pList;
     
+	
+	
+	
     //phoneDB.txt 파일을 읽어 모든 전화번호(리스트)를 전달하는 메소드
 	public List<Person> getList() throws IOException{
 		pList = new ArrayList<Person>();
